@@ -111,6 +111,13 @@ export interface IUploadROomVariables {
   category: number;
 }
 
+export interface IUsernameSignUpVariables {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+}
+
 export const uploadRoom = (variables: IUploadROomVariables) =>
   instance
     .post(`rooms/`, variables, {
@@ -187,3 +194,35 @@ export const checkBooking = ({
       .then((response) => response.data);
   }
 };
+
+export const usernameSignUp = ({
+  name,
+  email,
+  username,
+  password,
+}: IUsernameSignUpVariables) =>
+  instance
+    .post(
+      `/users/sign-up`,
+      { name, email, username, password },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookies.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);
+
+/* export const githubLogIn = (code: string) =>
+  instance
+    .post(
+      `/users/github`,
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.status); */
